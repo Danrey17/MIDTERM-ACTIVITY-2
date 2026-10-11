@@ -1,5 +1,5 @@
 name: gym_app
-description: "A gym application."
+description: "A gym application that uses wger it's an open-source workout manager with a free REST API and it need no API key and no credit cards. The first screen (Future) it fetches a list of 20 exercises and the second screen (Stream) fetches one random exercise from the first screen every 5 seconds ."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev

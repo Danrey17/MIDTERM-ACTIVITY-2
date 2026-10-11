@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../models/exercise.dart';
 import '../../services/exercise_service.dart';
+import '../atoms/loading_spinner.dart';
+import '../organisms/exercise_list.dart';
+import '../templates/screen_template.dart';
 
 class ExercisesPage extends StatefulWidget {
   const ExercisesPage({super.key});
@@ -12,7 +15,6 @@ class ExercisesPage extends StatefulWidget {
 
 class _ExercisesPageState extends State<ExercisesPage> {
   late Future<List<Exercise>> _exercisesFuture;
-
   @override
   void initState() {
     super.initState();
@@ -25,8 +27,8 @@ class _ExercisesPageState extends State<ExercisesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Gym Exercises')),
+    return ScreenTemplate(
+      title: 'Gym Exercises',
       body: FutureBuilder<List<Exercise>>(
         future: _exercisesFuture,
         builder: _buildBody,
@@ -36,7 +38,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
 
   Widget _buildBody(BuildContext ctx, AsyncSnapshot<List<Exercise>> snap) {
     if (snap.connectionState == ConnectionState.waiting) {
-      return const Center(child: CircularProgressIndicator());
+      return const LoadingSpinner();
     }
     if (snap.hasError) {
       return Center(
@@ -46,16 +48,6 @@ class _ExercisesPageState extends State<ExercisesPage> {
         ),
       );
     }
-    final exercises = snap.data ?? [];
-    if (exercises.isEmpty) {
-      return const Center(child: Text('No exercises found'));
-    }
-    return ListView.builder(
-      itemCount: exercises.length,
-      itemBuilder: (_, i) => ListTile(
-        title: Text(exercises[i].name),
-        subtitle: Text(exercises[i].category),
-      ),
-    );
+    return ExerciseList(exercises: snap.data ?? []);
   }
 }

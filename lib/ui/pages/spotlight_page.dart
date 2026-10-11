@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../atoms/loading_spinner.dart';
+import '../templates/screen_template.dart';
 import '../../models/exercise.dart';
 import '../../services/exercise_service.dart';
 
@@ -15,8 +17,8 @@ class _SpotlightPageState extends State<SpotlightPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Workout Spotlight')),
+    return ScreenTemplate(
+      title: 'Workout Spotlight',
       body: StreamBuilder<Exercise>(
         stream: _stream,
         builder: (context, snap) {
@@ -26,7 +28,7 @@ class _SpotlightPageState extends State<SpotlightPage> {
             );
           }
           if (!snap.hasData) {
-            return const Center(child: CircularProgressIndicator());
+            return const LoadingSpinner();
           }
           final e = snap.data!;
           return Center(
